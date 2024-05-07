@@ -39,12 +39,12 @@ require("./db-creds.js");
 	core.Config.load(configData);
 
 	const job = new CronJob("0 0 0 * * 1", async () => {
-		const originNotes = await core.Query.getRecordset(rs => rs
+		const originNotes = await Query.getRecordset(rs => rs
 			.select("Notes")
 			.from("data", "Origin")
 			.where("Notes %*like* OR Notes %*like*", "http://", "https://")
 			.flat("Notes"));
-		const suggestionTexts = await core.Query.getRecordset(rs => rs
+		const suggestionTexts = await Query.getRecordset(rs => rs
 			.select("Text")
 			.from("data", "Suggestion")
 			.where("Text %*like* OR Text %*like*", "http://", "https://")
