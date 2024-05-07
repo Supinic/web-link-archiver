@@ -11,6 +11,8 @@
     "supi-core": "supinic/supi-core"
   },
   "scripts": {
-    "start": "node --env-file=db-creds.env ./master.js"
+    "v20": "node --env-file=db-creds.env ./index.js",
+    "start": "node ./index.js",
+    "debug": "node --inspect=0.0.0.0:12000 ./index.js"
   }
 }
