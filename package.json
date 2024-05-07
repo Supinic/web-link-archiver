@@ -1,0 +1,16 @@
+{
+  "name": "web-link-archiver",
+  "version": "1.0.0",
+  "description": "Archives local database links via Internet Archive API",
+  "main": "index.js",
+  "repository": "https://github.com/Supinic/web-link-archiver",
+  "author": "Supinic <supinic@protonmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cron": "^3.1.7",
+    "supi-core": "supinic/supi-core"
+  },
+  "scripts": {
+    "start": "node --env-file=db-creds.env ./master.js"
+  }
+}
