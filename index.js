@@ -1,8 +1,8 @@
 const { setTimeout } = require("node:timers/promises");
 const { CronJob } = require("cron");
-const archiveUrl = async (url) => {
-	const accessKey = core.Config.get("API_INTERNET_ARCHIVE_ACCESS_KEY");
-	const secretKey = core.Config.get("API_INTERNET_ARCHIVE_SECRET_KEY");
+const archiveUrl = async (config, url) => {
+	const accessKey = config.get("API_INTERNET_ARCHIVE_ACCESS_KEY");
+	const secretKey = config.get("API_INTERNET_ARCHIVE_SECRET_KEY");
 
 	await fetch("https://web.archive.org/save", {
 		method: "POST",
@@ -57,7 +57,7 @@ require("./db-creds.js");
 		const regex = /(https?:\/\/.+?)(\s|$)/g;
 		for (const note of data) {
 			for (const match of note.matchAll(regex)) {
-				await archiveUrl(match[1]);
+				await archiveUrl(core.Config, match[1]);
 				await setTimeout(60_000);
 			}
 		}
