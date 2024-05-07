@@ -58,7 +58,7 @@ require("./db-creds.js");
 		for (const note of data) {
 			for (const match of note.matchAll(regex)) {
 				await archiveUrl(match[1]);
-				await setTimeout(6000);
+				await setTimeout(60_000);
 			}
 		}
 	});
