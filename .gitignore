@@ -1,0 +1,13 @@
+.idea
+node_modules
+db-access.js
+config.json
+.nyc_output
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/version
+yarn-error.log
+coverage
