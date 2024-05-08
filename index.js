@@ -57,8 +57,10 @@ require("./db-creds.js");
 		const regex = /(https?:\/\/.+?)(\s|$)/g;
 		for (const note of data) {
 			for (const match of note.matchAll(regex)) {
-				await archiveUrl(core.Config, match[1]);
+				const response = await archiveUrl(core.Config, match[1]);
 				await setTimeout(60_000);
+
+				console.log("Result", match, response.body);
 			}
 		}
 	});
