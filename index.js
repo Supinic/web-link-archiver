@@ -4,7 +4,7 @@ const archiveUrl = async (config, url) => {
 	const accessKey = config.get("API_INTERNET_ARCHIVE_ACCESS_KEY");
 	const secretKey = config.get("API_INTERNET_ARCHIVE_SECRET_KEY");
 
-	await fetch("https://web.archive.org/save", {
+	const response = await fetch("https://web.archive.org/save", {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -19,6 +19,8 @@ const archiveUrl = async (config, url) => {
 			delay_wb_availability: "on"
 		}).toString()
 	});
+
+	return await response.json();
 }
 
 require("./db-creds.js");
@@ -51,16 +53,22 @@ require("./db-creds.js");
 			.flat("Text"));
 
 		const data = [
-			...originNotes, ...suggestionTexts
+			...originNotes,
+			...suggestionTexts
 		];
 
 		const regex = /(https?:\/\/.+?)(\s|$)/g;
 		for (const note of data) {
 			for (const match of note.matchAll(regex)) {
-				const response = await archiveUrl(core.Config, match[1]);
-				await setTimeout(60_000);
+				try {
+					const json = await archiveUrl(core.Config, match[1]);
+					console.log("Result", match, json);
+				}
+				catch (e) {
+					console.error("Couldn't archive", { match, e });
+				}
 
-				console.log("Result", match, response.body);
+				await setTimeout(60_000);
 			}
 		}
 	});
