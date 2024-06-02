@@ -41,6 +41,7 @@ require("./db-creds.js");
 	core.Config.load(configData);
 
 	const job = new CronJob("0 0 0 * * 1", async () => {
+		const done = new Set();
 		const originNotes = await Query.getRecordset(rs => rs
 			.select("Notes")
 			.from("data", "Origin")
@@ -60,9 +61,15 @@ require("./db-creds.js");
 		const regex = /(https?:\/\/.+?)(\s|$)/g;
 		for (const note of data) {
 			for (const match of note.matchAll(regex)) {
+				const link = match[1];
+				if (done.has(link)) {
+					continue;
+				}
+
 				try {
 					const json = await archiveUrl(core.Config, match[1]);
 					console.log("Result", match, json);
+					done.add(link);
 				}
 				catch (e) {
 					console.error("Couldn't archive", { match, e });
