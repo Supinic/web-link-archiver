@@ -13,7 +13,7 @@ const archiveUrl = async (config, url) => {
 		},
 		body: new URLSearchParams({
 			url,
-			if_not_archived_within: "7d",
+			if_not_archived_within: "5d",
 			capture_screenshot: "on",
 			skip_first_archive: "on",
 			delay_wb_availability: "on"
